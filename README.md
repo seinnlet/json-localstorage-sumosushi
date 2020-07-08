@@ -1,2 +1,2 @@
 # phpassignment
-PHP assignments from MIC are upload here.
+Sushi Shop with localstorage and json usage
