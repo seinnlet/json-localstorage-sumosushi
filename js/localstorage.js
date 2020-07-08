@@ -1,0 +1,237 @@
+$(function () {
+	
+	showTable();
+
+	$('.row-menu').on('click', '.btn-addtocart', function() {
+		
+		let id = $(this).data('id');
+		let name = $(this).data('name');
+		let price = $(this).data('price');
+
+
+		// ** create object
+		let menu = {
+			// key : value (value is from above )
+			id: id,
+			name: name,
+			price: price, 
+			qty: 1
+		}
+
+
+		// ** check whether localstorage is already existed
+		let menuString = localStorage.getItem("menulist");
+		let menuArray;
+		if (menuString == null) {
+
+			// create new array
+			menuArray = Array();
+		
+		} else {
+		
+			// convert to array
+			menuArray = JSON.parse(menuString);
+		
+		}
+
+
+		// ** for adding quantity of same item, and its alternative 
+		let status = false;
+		$.each(menuArray, function(i, v) {
+			if (id == v.id) {
+				status = true;
+				v.qty++;
+			}
+		});
+
+		// for different item, push menu object to menuArray
+		if (!status) {
+			menuArray.push(menu);
+		}
+
+
+		// ** set item to localstorage
+		let menuData = JSON.stringify(menuArray);
+		localStorage.setItem('menulist', menuData);
+
+
+		// ** call showTable
+		showTable();
+
+	});
+
+
+	// if localstorage exists, table will show, its div is given id
+	function showTable() {
+		let menuString = localStorage.getItem('menulist');
+		if (menuString) {
+
+			$('#div-voucher').show();
+			
+			// ** show in html 
+			let menuArray = JSON.parse(menuString);
+			if (menuArray != 0) {	
+
+				let total = 0;
+				let tbodyData = '', tfootData = '';
+				
+				// looping 
+				$.each(menuArray, function(i, v) {
+					let name = v.name;
+					let price = v.price;
+					let qty = v.qty;
+					let subtotal = price * qty;
+
+					total += subtotal;
+
+					// in plus and minus button data-id is set with array index
+					tbodyData += `<tr>
+													<td>${name}<br><em class="text-muted font-weight-light">${price} Ks</em></td>
+													<td>
+														<button type="button" class="btn-minus btn btn-sm btn-secondary" data-id="${i}">&#45;</button>
+														<span class="mx-2">${qty}</span>
+														<button type="button" class="btn-plus btn btn-sm btn-secondary" data-id="${i}">&#43;</button>
+													</td>
+													<td>${subtotal} Ks</td>
+													<td align="center">
+														<button type="button" class="btn btn-danger btn-sm btn-remove" data-id="${i}">&times;</button>
+													</td>
+												<tr>`;
+
+				});	// looping end
+				
+				tfootData += `
+											<tr>
+												<td>Total</td>
+												<td colspan="3" align="right"><strong><span id="total">${total}</span> Ks</strong></td>
+											</tr>
+											<tr>
+												<td>Paid</td>
+												<td colspan="3">
+													<input type="text" id="paid" style="width:90%" name="paid" class="d-inline form-control text-right border-0" placeholder="Paid Money">Ks
+												</td>
+											</tr>
+											<tr>
+												<td>Charges</td>
+												<td colspan="3">
+													<input type="text" id="charges" style="width:90%" value="0" name="charges" class="d-inline form-control text-right border-0 bg-white" placeholder="Charges Money" readonly>Ks
+												</td>
+											</tr>
+											<tr>
+												<td colspan="4">
+													<button type="button" class="btn btn-light btn-block" id="btn-checkout">Check Out</button>
+												</td>
+											</tr>`;
+
+				$('#payment tbody').html(tbodyData);
+				$('#payment tfoot').html(tfootData);
+
+			} else { 
+
+				// although array is existed and value is empty
+				$('#div-voucher').hide();
+			
+			}
+
+		} else {
+			$('#div-voucher').hide();
+		}
+	}
+
+
+	// ** add quantity 
+	$('tbody').on('click', '.btn-plus', function () {
+		
+		let id = $(this).data('id');	// id from plus button set in showTable tbodyData
+
+		let menuString = localStorage.getItem('menulist');
+		let menuArray = JSON.parse(menuString);
+		$.each(menuArray, function(i, v) {
+			if (i==id) {
+				v.qty++;
+			}
+		});
+
+		let menuData = JSON.stringify(menuArray);
+		localStorage.setItem('menulist', menuData);
+
+		showTable();
+
+	}) // end of add quantity
+
+
+	// ** minus quantity 
+	$('tbody').on('click', '.btn-minus', function () {
+		
+		let id = $(this).data('id');	// id from minus button set in showTable tbodyData
+
+		let menuString = localStorage.getItem('menulist');
+		let menuArray = JSON.parse(menuString);
+		$.each(menuArray, function(i, v) {
+			if (i==id && v.qty > 1) {
+				v.qty--;
+			}
+		});
+
+		let menuData = JSON.stringify(menuArray);
+		localStorage.setItem('menulist', menuData);
+
+		showTable();
+
+	}) // end of minus quantity
+
+
+	// remove item
+	$('tbody').on('click', '.btn-remove', function() {
+		
+		let id = $(this).data('id');
+
+		let menuString = localStorage.getItem('menulist');
+		let menuArray = JSON.parse(menuString);
+
+		$.each(menuArray, function(i, v) {
+			if (i == id) {
+				menuArray.splice(i, 1);
+			}
+		});
+
+		let menuData = JSON.stringify(menuArray);
+		localStorage.setItem('menulist', menuData);
+
+		showTable();
+		
+	});	// end of remove item
+
+
+	// delete all items
+	$('tfoot').on('click', '#btn-checkout', function() {
+
+		localStorage.clear();
+		showTable();
+			
+	}); // end of delete all items
+
+
+	// calculate charges 
+	$('tfoot').on('keypress', '#paid', function(e) {
+		if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+			return false;
+    }
+	});
+	$('tfoot').on('keyup', '#paid', function() {
+
+		total = +$('#total').text();
+		paid = +$('#paid').val();
+		
+		charges = total - paid;
+		charges = (charges < 0) ? charges * -1 : charges; 
+		if (paid >= total) {
+			$('#charges').val(charges);
+		}
+		if (paid == "") {
+			$('#charges').val(0);
+		}
+			
+	});
+
+}) // end of ready function

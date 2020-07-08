@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Tuna",
+        "price": "1600",
+        "category": "Sushi",
+        "image": "photo\/1.jpg"
+    },
+    {
+        "name": "Sashimi",
+        "price": "6400",
+        "category": "Sushi",
+        "image": "photo\/2.jpg"
+    },
+    {
+        "name": "Uramaki",
+        "price": "3200",
+        "category": "Sushi",
+        "image": "photo\/3.png"
+    },
+    {
+        "name": "Sushi Roll",
+        "price": "3600",
+        "category": "Sushi",
+        "image": "photo\/4.jpg"
+    },
+    {
+        "name": "Sushi Set",
+        "price": "8500",
+        "category": "Sushi",
+        "image": "photo\/5.jpg"
+    },
+    {
+        "name": "Standard Lunch Box",
+        "price": "2500",
+        "category": "Bento Boxes",
+        "image": "photo\/bento1.jpg"
+    },
+    {
+        "name": "Salmon Noodles",
+        "price": "5000",
+        "category": "Bento Boxes",
+        "image": "photo\/bento2.jpg"
+    },
+    {
+        "name": "Salmon Special",
+        "price": "7500",
+        "category": "Bento Boxes",
+        "image": "photo\/bento3.jpg"
+    },
+    {
+        "name": "Boat Sushi",
+        "price": "6000",
+        "category": "Bento Boxes",
+        "image": "photo\/bento4.jpg"
+    },
+    {
+        "name": "Plain Ramen",
+        "price": "2500",
+        "category": "Ramen",
+        "image": "photo\/ramen1.jpg"
+    },
+    {
+        "name": "Egg & Meat",
+        "price": "3000",
+        "category": "Ramen",
+        "image": "photo\/ramen2.jpg"
+    },
+    {
+        "name": "Soba Noodles",
+        "price": "4500",
+        "category": "Ramen",
+        "image": "photo\/ramen3.jpg"
+    },
+    {
+        "name": "Gyoza",
+        "price": "2000",
+        "category": "Appetizers",
+        "image": "photo\/a1.jpg"
+    },
+    {
+        "name": "Fried Sweet Potato",
+        "price": "1500",
+        "category": "Appetizers",
+        "image": "photo\/a2.jpg"
+    },
+    {
+        "name": "Tempura",
+        "price": "2500",
+        "category": "Appetizers",
+        "image": "photo\/a3.jpg"
+    },
+    {
+        "name": "Tofu",
+        "price": "2000",
+        "category": "Appetizers",
+        "image": "photo\/a4.jpg"
+    },
+    {
+        "name": "Rice and Sesame",
+        "price": "1000",
+        "category": "Rice",
+        "image": "photo\/rice1.jpg"
+    },
+    {
+        "name": "Fried Sticky Rice",
+        "price": "2000",
+        "category": "Rice",
+        "image": "photo\/rice2.jpg"
+    }
+]
